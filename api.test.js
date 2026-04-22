@@ -28,4 +28,35 @@ describe('Pruebas de la API de Leads', () => {
     expect(res.body).toHaveProperty('errors');
     console.log('Mensaje de error recibido:', res.body.message);
   });
+
+  // Test 3: Verificar paginación
+  test('GET /leads con paginación debería limitar los resultados', async () => {
+    const limit = 5;
+    const res = await request(app).get(`/leads?page=1&limit=${limit}`);
+
+    expect(res.statusCode).toEqual(200);
+    
+    // Verificamos que existan las propiedades de paginación
+    expect(res.body).toHaveProperty('totalItems');
+    expect(res.body).toHaveProperty('totalPages');
+    expect(res.body).toHaveProperty('currentPage', 1);
+    
+    // Verificamos que el arreglo de leads no exceda el límite solicitado
+    expect(res.body.leads.length).toBeLessThanOrEqual(limit);
+  });
+
+  // Test 4: Verificar filtrado por fuente
+  test('GET /leads debería filtrar correctamente por fuente (facebook)', async () => {
+    const fuente = 'facebook';
+    const res = await request(app).get(`/leads?fuente=${fuente}`);
+
+    expect(res.statusCode).toEqual(200);
+    
+    // Verificamos que, si hay resultados, todos sean de la fuente correcta
+    if (res.body.leads.length > 0) {
+      res.body.leads.forEach(lead => {
+        expect(lead.fuente).toBe(fuente);
+      });
+    }
+  });
 });
