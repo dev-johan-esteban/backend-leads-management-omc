@@ -1,5 +1,5 @@
 import express from 'express';
-import { getLeadsSummary, testAIConnection } from '../controllers/AIController.js';
+import { getLeadsSummary } from '../controllers/AIController.js';
 
 const router = express.Router();
 
