@@ -38,8 +38,8 @@ npm install
 ### 3. Configurar variables de entorno
 Crea un archivo .env en la raíz del proyecto y añade lo siguiente:
 PORT=8080
-DATABASE_URL=postgresql:<db>
-GEMINI_API_KEY=<ApiKey>
+DATABASE_URL=postgresql:(db)
+GEMINI_API_KEY=(ApiKey)
 
 ### 4. Ejecutar el servidor
 npm start
